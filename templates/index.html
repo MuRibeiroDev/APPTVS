@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de TVs Samsung</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🖥️ Controle de TVs Samsung</h1>
+            <p class="subtitle">SmartThings Automation System</p>
+        </header>
+
+        <main>
+            <div class="tv-grid">
+                <!-- TI01 -->
+                <div class="tv-card">
+                    <div class="tv-display">
+                        <div class="tv-screen">
+                            <div class="screen-reflection"></div>
+                            <div class="screen-glow" id="glow-TI01"></div>
+                        </div>
+                        <div class="tv-stand"></div>
+                    </div>
+                    <div class="tv-header">
+                        <h2>TI01</h2>
+                        <div class="status-container">
+                            <span class="wifi-icon" id="wifi-TI01" title="Verificando rede...">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>
+                            </span>
+                            <span class="status-badge" id="badge-TI01">Verificando...</span>
+                        </div>
+                    </div>
+                    <button class="power-btn" id="power-TI01" onclick="togglePower('TI01')" title="Ligar/Desligar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+                    </button>
+                    <div class="status" id="status-TI01"></div>
+                </div>
+
+                <!-- TI02 -->
+                <div class="tv-card">
+                    <div class="tv-display">
+                        <div class="tv-screen">
+                            <div class="screen-reflection"></div>
+                            <div class="screen-glow" id="glow-TI02"></div>
+                        </div>
+                        <div class="tv-stand"></div>
+                    </div>
+                    <div class="tv-header">
+                        <h2>TI02</h2>
+                        <div class="status-container">
+                            <span class="wifi-icon" id="wifi-TI02" title="Verificando rede...">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>
+                            </span>
+                            <span class="status-badge" id="badge-TI02">Verificando...</span>
+                        </div>
+                    </div>
+                    <button class="power-btn" id="power-TI02" onclick="togglePower('TI02')" title="Ligar/Desligar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+                    </button>
+                    <div class="status" id="status-TI02"></div>
+                </div>
+
+                <!-- TI03 -->
+                <div class="tv-card">
+                    <div class="tv-display">
+                        <div class="tv-screen">
+                            <div class="screen-reflection"></div>
+                            <div class="screen-glow" id="glow-TI03"></div>
+                        </div>
+                        <div class="tv-stand"></div>
+                    </div>
+                    <div class="tv-header">
+                        <h2>TI03</h2>
+                        <div class="status-container">
+                            <span class="wifi-icon" id="wifi-TI03" title="Verificando rede...">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>
+                            </span>
+                            <span class="status-badge" id="badge-TI03">Verificando...</span>
+                        </div>
+                    </div>
+                    <button class="power-btn" id="power-TI03" onclick="togglePower('TI03')" title="Ligar/Desligar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+                    </button>
+                    <div class="status" id="status-TI03"></div>
+                </div>
+
+                <!-- TV-ATLAS -->
+                <div class="tv-card">
+                    <div class="tv-display">
+                        <div class="tv-screen">
+                            <div class="screen-reflection"></div>
+                            <div class="screen-glow" id="glow-TV-ATLAS"></div>
+                        </div>
+                        <div class="tv-stand"></div>
+                    </div>
+                    <div class="tv-header">
+                        <h2>TV-ATLAS</h2>
+                        <div class="status-container">
+                            <span class="wifi-icon" id="wifi-TV-ATLAS" title="Verificando rede...">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>
+                            </span>
+                            <span class="status-badge" id="badge-TV-ATLAS">Verificando...</span>
+                        </div>
+                    </div>
+                    <button class="power-btn" id="power-TV-ATLAS" onclick="togglePower('TV-ATLAS')" title="Ligar/Desligar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+                    </button>
+                    <div class="status" id="status-TV-ATLAS"></div>
+                </div>
+
+                <!-- TV-JURIDICO -->
+                <div class="tv-card">
+                    <div class="tv-display">
+                        <div class="tv-screen">
+                            <div class="screen-reflection"></div>
+                            <div class="screen-glow" id="glow-TV-JURIDICO"></div>
+                        </div>
+                        <div class="tv-stand"></div>
+                    </div>
+                    <div class="tv-header">
+                        <h2>TV-JURIDICO</h2>
+                        <div class="status-container">
+                            <span class="wifi-icon" id="wifi-TV-JURIDICO" title="Verificando rede...">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>
+                            </span>
+                            <span class="status-badge" id="badge-TV-JURIDICO">Verificando...</span>
+                        </div>
+                    </div>
+                    <button class="power-btn" id="power-TV-JURIDICO" onclick="togglePower('TV-JURIDICO')" title="Ligar/Desligar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+                    </button>
+                    <div class="status" id="status-TV-JURIDICO"></div>
+                </div>
+            </div>
+
+            <!-- Botão para todas as TVs -->
+            <div class="all-tvs-section">
+                <button class="btn btn-success btn-large" onclick="executarTodasSequencias()">
+                    <span>Ativar Todas as TVs Simultaneamente</span>
+                </button>
+                <div class="status" id="status-todas"></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Sistema de Automação via SmartThings API</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
