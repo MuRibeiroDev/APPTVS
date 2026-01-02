@@ -561,7 +561,7 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 10000;
-    /* backdrop-filter: blur(2px); Removed to avoid modal feel */
+    pointer-events: none; /* Permite clicar através do overlay */
     animation: fadeIn 0.2s ease;
 }
 
@@ -578,6 +578,7 @@ body {
     flex-direction: column;
     overflow: hidden;
     animation: scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: auto; /* Reativa eventos apenas no conteúdo do modal */
 }
 
 .modal-header {
