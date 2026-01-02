@@ -3,10 +3,12 @@ Script para listar todas as TVs/dispositivos disponíveis na API SmartThings
 """
 import json
 import requests
+import sys
+import os
 
-
-# Token de acesso (mesmo do app.py)
-ACCESS_TOKEN = "26a56a3a-70aa-4c61-8cd6-e191715479e2"
+# Adiciona o diretório pai ao path para importar config
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import ACCESS_TOKEN
 
 def listar_dispositivos():
     """Lista todos os dispositivos da conta SmartThings"""

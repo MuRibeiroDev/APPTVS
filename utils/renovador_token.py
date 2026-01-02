@@ -19,12 +19,22 @@ from selenium.webdriver.edge.service import Service
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
+# Importa config para buscar credenciais
+try:
+    import sys
+    sys.path.append(str(Path(__file__).parent.parent))
+    from config import GOOGLE_EMAIL, GOOGLE_SENHA
+except ImportError:
+    GOOGLE_EMAIL = None
+    GOOGLE_SENHA = None
+
 
 class TokenManager:
     """Gerenciador de token com verificação de expiração"""
     
     def __init__(self, token_file='token_data.json'):
         self.token_file = Path(__file__).parent.parent / token_file
+        self.status_file = Path(__file__).parent.parent / 'token_status.json'
         self.token_data = self._carregar_token_data()
     
     def _carregar_token_data(self):
@@ -38,6 +48,16 @@ class TokenManager:
         """Salva dados do token no arquivo JSON"""
         with open(self.token_file, 'w', encoding='utf-8') as f:
             json.dump(self.token_data, indent=4, fp=f)
+    
+    def _salvar_status(self, sucesso, erro=None):
+        """Salva o status da última renovação"""
+        status = {
+            'ultima_tentativa': datetime.now().isoformat(),
+            'sucesso': sucesso,
+            'erro': erro
+        }
+        with open(self.status_file, 'w', encoding='utf-8') as f:
+            json.dump(status, f, indent=4)
     
     def atualizar_token(self, novo_token):
         """Atualiza o token no sistema"""
@@ -105,50 +125,11 @@ class RenovadorTokenSmartThings:
     """Automatiza a renovação completa do token SmartThings via Google"""
     
     def __init__(self, email=None, senha=None):
-        self.email = email
-        self.senha = senha
+        # Usa credenciais passadas ou busca do config.py
+        self.email = email or GOOGLE_EMAIL
+        self.senha = senha or GOOGLE_SENHA
         self.driver = None
         self.token_manager = TokenManager()
-        self.credenciais_file = Path(__file__).parent.parent / 'credenciais.json'
-        
-        if not self.email or not self.senha:
-            self._carregar_credenciais()
-    
-    def _carregar_credenciais(self):
-        """Carrega credenciais do arquivo JSON"""
-        if self.credenciais_file.exists():
-            with open(self.credenciais_file, 'r', encoding='utf-8') as f:
-                creds = json.load(f)
-                self.email = creds.get('email')
-                self.senha = creds.get('senha')
-    
-    def _salvar_credenciais(self):
-        """Salva credenciais no arquivo JSON"""
-        with open(self.credenciais_file, 'w', encoding='utf-8') as f:
-            json.dump({
-                'email': self.email,
-                'senha': self.senha,
-                '_aviso': 'MANTENHA ESTE ARQUIVO SEGURO E NUNCA COMPARTILHE'
-            }, f, indent=4)
-        print("✅ Credenciais salvas")
-        print("⚠️  IMPORTANTE: Mantenha este arquivo seguro!")
-    
-    def configurar_credenciais(self):
-        """Modo interativo para configurar credenciais"""
-        print("\n" + "="*60)
-        print("⚙️  CONFIGURAÇÃO DE CREDENCIAIS DO GOOGLE")
-        print("="*60 + "\n")
-        
-        email = input("Email da conta Google: ").strip()
-        senha = input("Senha da conta Google: ").strip()
-        
-        if email and senha:
-            self.email = email
-            self.senha = senha
-            self._salvar_credenciais()
-            print("\n✅ Credenciais configuradas!")
-        else:
-            print("\n❌ Credenciais inválidas!")
     
     def _iniciar_navegador(self):
         """Inicializa o navegador Edge"""
@@ -341,36 +322,49 @@ class RenovadorTokenSmartThings:
         print("="*60 + "\n")
         
         if not self.email or not self.senha:
-            print("❌ Credenciais não configuradas!")
+            erro = "Credenciais não configuradas"
+            print(f"❌ {erro}")
+            self.token_manager._salvar_status(False, erro)
             return False
         
         try:
             if not self._iniciar_navegador():
+                erro = "Falha ao iniciar navegador Edge"
+                self.token_manager._salvar_status(False, erro)
                 return False
             
             if not self._fazer_login_google():
-                print("\n❌ Falha no login")
+                erro = "Falha no login via Google"
+                print(f"\n❌ {erro}")
+                self.token_manager._salvar_status(False, erro)
                 return False
             
             novo_token = self._gerar_e_capturar_token()
             
             if not novo_token:
-                print("\n❌ Não foi possível gerar o token")
+                erro = "Não foi possível gerar/capturar o token"
+                print(f"\n❌ {erro}")
+                self.token_manager._salvar_status(False, erro)
                 return False
             
             print("\n🔄 Validando token...")
             if self.token_manager.validar_token(novo_token):
                 self.token_manager.atualizar_token(novo_token)
+                self.token_manager._salvar_status(True)
                 print("\n" + "="*60)
                 print("✅ TOKEN RENOVADO COM SUCESSO!")
                 print("="*60)
                 return True
             else:
-                print("\n❌ Token gerado mas validação falhou")
+                erro = "Token gerado mas validação falhou"
+                print(f"\n❌ {erro}")
+                self.token_manager._salvar_status(False, erro)
                 return False
                 
         except Exception as e:
-            print(f"\n❌ Erro: {e}")
+            erro = str(e)
+            print(f"\n❌ Erro: {erro}")
+            self.token_manager._salvar_status(False, erro)
             return False
             
         finally:
@@ -420,10 +414,7 @@ if __name__ == "__main__":
     
     renovador = RenovadorTokenSmartThings()
     
-    if len(sys.argv) > 1:
-        if sys.argv[1] in ['--config', '-c']:
-            renovador.configurar_credenciais()
-        elif sys.argv[1] in ['--agendar', '-a']:
-            agendar_renovacao()
+    if len(sys.argv) > 1 and sys.argv[1] in ['--agendar', '-a']:
+        agendar_renovacao()
     else:
         renovador.renovar()

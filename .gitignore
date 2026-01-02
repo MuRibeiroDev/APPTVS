@@ -1,6 +1,7 @@
 # Credenciais e tokens
 credenciais.json
 token_data.json
+token_status.json
 
 # Python
 __pycache__/
@@ -11,6 +12,11 @@ __pycache__/
 .venv/
 venv/
 ENV/
+
+# Backups e scripts de migração
+app_backup_*.py
+app_new.py
+migrate.py
 
 # IDE
 .vscode/

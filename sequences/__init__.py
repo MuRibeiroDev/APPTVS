@@ -5,7 +5,16 @@ from .tv_sequences import (
     sequencia_juridico,
     sequencia_operacao1_tv1,
     sequencia_operacao2_tv2,
-    sequencia_tv1_painel_tv3
+    sequencia_tv1_painel_tv3,
+    sequencia_reuniao,
+    sequencia_financeiro,
+    sequencia_tv4,
+    sequencia_tv5,
+    sequencia_tv6,
+    sequencia_gestao_industria,
+    sequencia_antifraude,
+    sequencia_controladoria,
+    sequencia_cobranca
 )
 
 __all__ = [
@@ -14,5 +23,15 @@ __all__ = [
     'sequencia_juridico',
     'sequencia_operacao1_tv1',
     'sequencia_operacao2_tv2',
-    'sequencia_tv1_painel_tv3'
+    'sequencia_tv1_painel_tv3',
+    'sequencia_reuniao',
+    'sequencia_financeiro',
+    'sequencia_tv4',
+    'sequencia_tv5',
+    'sequencia_tv6',
+    'sequencia_gestao_industria',
+    'sequencia_antifraude',
+    'sequencia_controladoria',
+    'sequencia_cobranca'
 ]
+
