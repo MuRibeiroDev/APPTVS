@@ -51,11 +51,7 @@ class TVController:
                 log(f"[{tv_nome}] Desligando TV...", "INFO")
                 tv._executar_comando_com_retry(tv_id, "switch", "off", max_tentativas=3, delay_retry=[10, 15])
             else:
-                # Envia webhook para ligar máquina virtual
-                self.webhook_service.enviar_comando_ligar(tv_nome)
-                
-                # Executa sequência de inicialização
-                self.sequence_mapper.executar_sequencia(tv, tv_id, tv_nome)
+                log(f"[{tv_nome}] TV está DESLIGADA - sequência NÃO será executada", "WARNING")
             
             return True
         except Exception as e:
@@ -87,8 +83,23 @@ class TVController:
             else:
                 log(f"[{tv_nome}] Webhook ignorado (BI já está ligado)", "INFO")
             
-            # Executa sequência de inicialização
-            self.sequence_mapper.executar_sequencia(tv, tv_id, tv_nome)
+            # Verifica se a TV está ligada antes de executar a sequência
+            log(f"[{tv_nome}] Verificando status antes de executar sequência...", "INFO")
+            status_data = tv.obter_status(tv_id)
+            is_on = False
+            
+            if status_data:
+                try:
+                    switch_value = status_data['components']['main']['switch']['switch']['value']
+                    is_on = (switch_value == 'on')
+                except (KeyError, TypeError):
+                    pass
+            
+            if is_on:
+                # Executa sequência de inicialização apenas se a TV estiver ligada
+                self.sequence_mapper.executar_sequencia(tv, tv_id, tv_nome)
+            else:
+                log(f"[{tv_nome}] TV está DESLIGADA - sequência NÃO será executada", "WARNING")
             
             return True
         except Exception as e:
@@ -221,14 +232,7 @@ class TVController:
                 log(f"[{tv_nome}] Desligando TV...", "INFO")
                 tv._executar_comando_com_retry(tv_id, "switch", "off", max_tentativas=3, delay_retry=[10, 15])
             else:
-                # Envia webhook apenas se solicitado
-                if enviar_webhook:
-                    self.webhook_service.enviar_comando_ligar(tv_nome)
-                else:
-                    log(f"[{tv_nome}] Webhook ignorado (BI já está ligado)", "INFO")
-                
-                # Executa sequência de inicialização
-                self.sequence_mapper.executar_sequencia(tv, tv_id, tv_nome)
+                log(f"[{tv_nome}] TV está DESLIGADA - NÃO será executada sequência", "WARNING")
             
             return True
         except Exception as e:

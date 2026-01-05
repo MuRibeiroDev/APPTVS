@@ -48,7 +48,7 @@ class SequenceMapper:
             sequencia_tv6(tv, tv_id)
         
         # Setores específicos
-        elif tv_nome == "FINANCEIRO":
+        elif tv_nome in ["FINANCEIRO", "Financeiro"]:
             sequencia_financeiro(tv, tv_id)
         elif tv_nome == "TV-JURIDICO":
             sequencia_juridico(tv, tv_id)
