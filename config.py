@@ -3,7 +3,7 @@ Configurações do sistema de controle de TVs Samsung
 """
 
 # Token de acesso SmartThings
-ACCESS_TOKEN = "371e4ad5-bb7c-41b2-8d88-e3f196a7228b"
+ACCESS_TOKEN = "4391f8ff-758e-4bc7-9685-e539d625f0c9"
 
 # AVISO: Se você está recebendo erros 401, o token pode ter expirado.
 # Para gerar um novo token:
@@ -36,7 +36,9 @@ TV_CONFIG = [
     {"id": "033209fe-3ae3-2d71-be86-75b2f1d4268b", "setor": "Reunião"},       # TV-GEO-FOREST
     {"id": "cd98ec70-e345-2960-c042-ec2bcd783f24", "setor": "Operação"},      # TV-2-PAINEL---TV4
     {"id": "22b8779b-16f5-9c79-687b-70c275d6e550", "setor": "Operação"},      # COBRANÇA
-    {"id": "50f875f3-b76b-b808-396e-b343a899a517", "setor": "Financeiro"}     # FINANCEIRO
+    {"id": "50f875f3-b76b-b808-396e-b343a899a517", "setor": "Financeiro"},    # FINANCEIRO
+    {"id": "e83bb859-9240-2b35-c6e1-b4b217b6821b", "setor": "Cozinha"},       # Cozinha Entrada
+    {"id": "61fcb532-3d44-f253-c838-16e031135519", "setor": "Recepção"}       # Recepção
 ]
 
 # Lista de IDs para compatibilidade

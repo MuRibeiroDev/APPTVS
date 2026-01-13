@@ -396,3 +396,43 @@ def sequencia_cadastro(tv, tv_id):
     except Exception as e:
         log(f"[{nome}] ERRO: {e}", "ERROR")
         return False
+
+
+def sequencia_cozinha(tv, tv_id):
+    """Sequência para Cozinha Entrada"""
+    nome = "Cozinha Entrada"
+    try:
+        log(f"[{nome}] Iniciando sequência...")
+        ligar_tv(tv, tv_id, nome)
+        pressionar_home(tv, tv_id, nome, delay=10)
+        pressionar_esquerda(tv, tv_id, nome, delay=10)
+        pressionar_baixo(tv, tv_id, nome, delay=10)
+        pressionar_direita(tv, tv_id, nome, delay=10)
+        pressionar_direita(tv, tv_id, nome, delay=10)
+        pressionar_enter(tv, tv_id, nome, delay=10)
+        pressionar_enter(tv, tv_id, nome, delay=10)
+        log(f"[{nome}] Sequência finalizada!", "SUCCESS")
+        return True
+    except Exception as e:
+        log(f"[{nome}] ERRO: {e}", "ERROR")
+        return False
+
+
+def sequencia_recepcao(tv, tv_id):
+    """Sequência para Recepção"""
+    nome = "Recepção"
+    try:
+        log(f"[{nome}] Iniciando sequência...")
+        ligar_tv(tv, tv_id, nome)
+        pressionar_home(tv, tv_id, nome, delay=10)
+        for _ in range(3):
+            pressionar_esquerda(tv, tv_id, nome, delay=10)
+        pressionar_cima(tv, tv_id, nome, delay=10)
+        pressionar_direita(tv, tv_id, nome, delay=10)
+        pressionar_enter(tv, tv_id, nome, delay=20)
+        pressionar_enter(tv, tv_id, nome, delay=10)
+        log(f"[{nome}] Sequência finalizada!", "SUCCESS")
+        return True
+    except Exception as e:
+        log(f"[{nome}] ERRO: {e}", "ERROR")
+        return False

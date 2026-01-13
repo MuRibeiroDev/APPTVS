@@ -281,10 +281,11 @@ class TVController:
                 "OperaÃ§Ã£o 1 - TV1", "OperaÃ§Ã£o 2 - TV2",
                 "TV 1 Painel - TV3", "TV 2 Painel - TV4",
                 "TV 3 Painel - TV5", "TV 4 Painel - TV6",
-                "GESTÃƒO-INDUSTRIA", "ANTIFRAUDE",
-                "CONTROLADORIA", "FINANCEIRO",
-                "COBRANÃ‡A", "TV-JURIDICO",
-                "TVCADASTRO"
+                "GestÃ£o Industria", "Antifraude",
+                "Controladoria", "Financeiro",
+                "CobranÃ§a", "TV-JURIDICO",
+                "TvCadastro",
+                "Cozinha Entrada", "Recepção"
             ]
             
             # Adiciona TVs de reuniÃ£o no final
@@ -406,10 +407,11 @@ class TVController:
                 "Operação 1 - TV1", "Operação 2 - TV2",
                 "TV 1 Painel - TV3", "TV 2 Painel - TV4",
                 "TV 3 Painel - TV5", "TV 4 Painel - TV6",
-                "GESTÃO-INDUSTRIA", "ANTIFRAUDE",
-                "CONTROLADORIA", "FINANCEIRO",
-                "COBRANÇA", "TV-JURIDICO",
-                "TVCADASTRO"
+                "Gestão Industria", "Antifraude",
+                "Controladoria", "Financeiro",
+                "Cobrança", "TV-JURIDICO",
+                "TvCadastro",
+                "Cozinha Entrada", "Recepção"
             ]
             
             # Adiciona TVs de reunião no final
@@ -446,7 +448,7 @@ class TVController:
                         log(f"  Aguardando 10 segundos para iniciar a próxima TV do bloco...", "INFO")
                         time.sleep(10)
                         
-                    thread = threading.Thread(target=self.ligar_tv, args=(tv_nome, False))  # False = não envia webhook (já enviado)
+                    thread = threading.Thread(target=self.ligar_tv, args=(tv_nome, True))  # True = envia webhook
                     thread.daemon = True
                     threads.append(thread)
                     thread.start()

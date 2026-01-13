@@ -21,6 +21,8 @@ from sequences import (
     sequencia_controladoria,
     sequencia_cobranca,
     sequencia_cadastro,
+    sequencia_cozinha,
+    sequencia_recepcao
 )
 
 
@@ -65,6 +67,10 @@ class SequenceMapper:
             sequencia_cadastro(tv, tv_id)
         elif tv_nome == "TV-ATLAS":
             sequencia_atlas(tv, tv_id)
+        elif tv_nome == "Cozinha Entrada":
+            sequencia_cozinha(tv, tv_id)
+        elif tv_nome == "Recepção":
+            sequencia_recepcao(tv, tv_id)
         
         # Reunião (apenas liga)
         elif tv_nome in ["TV-DIA D", "TV-MOSSAD", "TV-GEO-FOREST"] or "REUNIÃO" in tv_nome.upper() or "REUNIAO" in tv_nome.upper():
