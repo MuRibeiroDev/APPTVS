@@ -16,6 +16,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.edge.options import Options
 from selenium.webdriver.edge.service import Service
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
@@ -143,26 +144,58 @@ class RenovadorTokenSmartThings:
         edge_options.add_experimental_option('excludeSwitches', ['enable-logging', 'enable-automation'])
         edge_options.use_chromium = True
         
+        # Tentativa 1: webdriver-manager (baixa automaticamente se necessário)
         try:
-            # Tenta usar o Edge diretamente (driver já instalado no sistema)
+            print("   → Tentando com webdriver-manager...")
+            service = Service(EdgeChromiumDriverManager().install())
+            self.driver = webdriver.Edge(service=service, options=edge_options)
+            self.driver.implicitly_wait(10)
+            print("✅ Navegador Edge iniciado com sucesso (webdriver-manager)")
+            return True
+        except Exception as e1:
+            print(f"   ⚠️  webdriver-manager falhou: {str(e1)[:100]}...")
+        
+        # Tentativa 2: Edge Driver do sistema (já instalado localmente)
+        try:
+            print("   → Tentando com Edge Driver local...")
             self.driver = webdriver.Edge(options=edge_options)
             self.driver.implicitly_wait(10)
-            print("✅ Navegador Edge iniciado")
+            print("✅ Navegador Edge iniciado com sucesso (driver local)")
             return True
-        except Exception as e:
-            print(f"❌ Erro ao iniciar Edge: {e}")
-            print("   Tentando com msedgedriver do PATH...")
+        except Exception:
+            # Sub-tentativa: Verificar se está na pasta atual do projeto
             try:
-                # Tenta com service explícito
-                service = Service("msedgedriver.exe")
-                self.driver = webdriver.Edge(service=service, options=edge_options)
-                self.driver.implicitly_wait(10)
-                print("✅ Navegador Edge iniciado")
-                return True
-            except Exception as e2:
-                print(f"❌ Erro final: {e2}")
-                print("   💡 Instale o Edge WebDriver manualmente ou use Chrome")
-                return False
+                import os
+                driver_caminho = os.path.join(os.getcwd(), "msedgedriver.exe")
+                if os.path.exists(driver_caminho):
+                    print(f"   → Encontrado msedgedriver.exe na pasta atual: {driver_caminho}")
+                    service = Service(driver_caminho)
+                    self.driver = webdriver.Edge(service=service, options=edge_options)
+                    self.driver.implicitly_wait(10)
+                    print("✅ Navegador Edge iniciado com sucesso (driver na pasta)")
+                    return True
+            except Exception as e_local:
+                print(f"   ⚠️  Driver na pasta falhou: {e_local}")
+
+            print(f"   ⚠️  Driver local (PATH) falhou.")
+        
+        # Tentativa 3: Usando Selenium Manager (Selenium 4.6+)
+        try:
+            print("   → Tentando com Selenium Manager...")
+            from selenium.webdriver.edge.service import Service as EdgeService
+            self.driver = webdriver.Edge(options=edge_options)
+            self.driver.implicitly_wait(10)
+            print("✅ Navegador Edge iniciado (Selenium Manager)")
+            return True
+        except Exception as e3:
+            print(f"   ⚠️  Selenium Manager falhou: {str(e3)[:100]}...")
+        
+        # Se tudo falhou
+        print("\n❌ Não foi possível iniciar o Edge. Soluções:")
+        print("   1. Verifique se o Microsoft Edge está instalado")
+        print("   2. Verifique sua conexão com a internet")
+        print("   3. Execute: pip install --upgrade selenium webdriver-manager")
+        return False
     
     def _fazer_login_google(self):
         """Faz login via Google no SmartThings"""

@@ -64,10 +64,12 @@ class SmartThingsTV:
             else:
                 log(f"✗ Tentativa {tentativa}/{max_tentativas} falhou: {response.status_code}", "ERROR")
                 
-                # Se falhar 5 vezes com erro 409, aborta a execução
-                if response.status_code == 409 and tentativa >= 5:
-                    log(f"   ABORTANDO: Erro 409 persistente após {max_tentativas} tentativas.", "ERROR")
-                    raise Exception(f"Erro 409 persistente no comando '{command}'")
+                # Se atingir o máximo de tentativas com erro 409, pula para a próxima TV
+                if response.status_code == 409 and tentativa >= max_tentativas:
+                    log(f"   ⏭️  PULANDO: Erro 409 persistente após {max_tentativas} tentativas.", "WARNING")
+                    log(f"   ⏳ Aguardando 25 segundos antes de continuar...", "INFO")
+                    time.sleep(25)
+                    return False
                 
                 if tentativa < max_tentativas:
                     delay = delays[tentativa - 1] if tentativa - 1 < len(delays) else delays[-1]

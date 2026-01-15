@@ -3,7 +3,7 @@ Configurações do sistema de controle de TVs Samsung
 """
 
 # Token de acesso SmartThings
-ACCESS_TOKEN = "4391f8ff-758e-4bc7-9685-e539d625f0c9"
+ACCESS_TOKEN = "6c9012a0-ce00-48e4-8c9a-4d495a47913b"
 
 # AVISO: Se você está recebendo erros 401, o token pode ter expirado.
 # Para gerar um novo token:
@@ -54,7 +54,7 @@ DEBUG = True
 
 # Configurações de renovação automática de token
 TOKEN_AUTO_RENOVACAO = True  # True para ativar, False para desativar
-TOKEN_HORARIO_RENOVACAO = "05:00"  # Horário diário para renovar (formato HH:MM)
+TOKEN_HORARIO_RENOVACAO = "06:47"  # Horário diário para renovar (formato HH:MM)
 
 # Configuração de ligamento automático de TVs
 AUTO_LIGAR_ATIVO = True  # True para ativar, False para desativar

@@ -120,8 +120,8 @@ def inicializar_sistema(app):
 
 
 if __name__ == '__main__':
-    # Configura stdout para line buffering
-    sys.stdout.reconfigure(line_buffering=True)
+    # Configura stdout para line buffering e encoding
+    sys.stdout.reconfigure(line_buffering=True, encoding='utf-8')
     
     # Cria aplicação
     app = create_app()
