@@ -177,6 +177,98 @@ def create_routes(tv_service, tv_controller, scheduler_service, renovador_token)
             "message": f"Sequência de reconexão iniciada para {tv_nome}"
         })
     
+    @api.route('/wallpaper/<tv_nome>', methods=['POST'])
+    def alterar_wallpaper(tv_nome):
+        """Altera o wallpaper de uma TV específica via webhook"""
+        if not tv_service.tv_existe(tv_nome):
+            return jsonify({
+                "success": False,
+                "message": f"TV {tv_nome} não encontrada"
+            }), 404
+        
+        data = request.get_json()
+        if not data or 'base64' not in data:
+            return jsonify({
+                "success": False,
+                "message": "Imagem base64 não fornecida"
+            }), 400
+        
+        base64_image = data['base64']
+        
+        # Usa o webhook_service do tv_controller
+        resultado = tv_controller.webhook_service.enviar_comando_wallpaper(tv_nome, base64_image)
+        
+        return jsonify({
+            "success": resultado,
+            "message": f"Wallpaper alterado para {tv_nome}" if resultado else f"Erro ao alterar wallpaper de {tv_nome}"
+        })
+    
+    @api.route('/bis/<tv_nome>', methods=['GET'])
+    def listar_bis(tv_nome):
+        """Lista os BIs (URLs) atuais de uma TV"""
+        if not tv_service.tv_existe(tv_nome):
+            return jsonify({
+                "success": False,
+                "message": f"TV {tv_nome} não encontrada"
+            }), 404
+        
+        resultado = tv_controller.webhook_service.listar_bis(tv_nome)
+        return jsonify(resultado)
+    
+    @api.route('/bis/<tv_nome>', methods=['POST'])
+    def editar_bis(tv_nome):
+        """Edita os BIs (URLs) de uma TV"""
+        if not tv_service.tv_existe(tv_nome):
+            return jsonify({
+                "success": False,
+                "message": f"TV {tv_nome} não encontrada"
+            }), 404
+        
+        data = request.get_json()
+        if not data or 'urls' not in data:
+            return jsonify({
+                "success": False,
+                "message": "URLs não fornecidas. Envie {urls: ['url1', 'url2']}"
+            }), 400
+        
+        urls = data['urls']
+        if not isinstance(urls, list):
+            return jsonify({
+                "success": False,
+                "message": "URLs deve ser uma lista"
+            }), 400
+        
+        resultado = tv_controller.webhook_service.editar_bis(tv_nome, urls)
+        
+        return jsonify({
+            "success": resultado,
+            "message": f"BIs atualizados para {tv_nome}" if resultado else f"Erro ao atualizar BIs de {tv_nome}"
+        })
+    
+    @api.route('/bis/<tv_nome>/abrir', methods=['POST'])
+    def abrir_bi(tv_nome):
+        """Abre o BI na TV"""
+        if not tv_service.tv_existe(tv_nome):
+            return jsonify({
+                "success": False,
+                "message": f"TV {tv_nome} não encontrada"
+            }), 404
+        
+        resultado = tv_controller.webhook_service.abrir_bi(tv_nome)
+        return jsonify(resultado)
+    
+    @api.route('/bis/<tv_nome>/fechar', methods=['POST'])
+    def fechar_bi(tv_nome):
+        """Fecha o BI na TV"""
+        if not tv_service.tv_existe(tv_nome):
+            return jsonify({
+                "success": False,
+                "message": f"TV {tv_nome} não encontrada"
+            }), 404
+        
+        resultado = tv_controller.webhook_service.fechar_bi(tv_nome)
+        return jsonify(resultado)
+    
     # ========== Token ==========
     
     @api.route('/token/config', methods=['GET', 'POST'])

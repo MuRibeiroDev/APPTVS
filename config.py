@@ -2,11 +2,19 @@
 Configurações do sistema de controle de TVs Samsung
 """
 
-# Token de acesso SmartThings
-ACCESS_TOKEN = "6c9012a0-ce00-48e4-8c9a-4d495a47913b"
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Carrega variáveis do arquivo .env
+env_path = Path(__file__).parent / '.env'
+load_dotenv(env_path)
+
+# Token de acesso SmartThings (atualizado automaticamente pelo renovador)
+ACCESS_TOKEN = "302fc938-d6fb-41ae-93c7-4102cf6e857a"
 
 # AVISO: Se você está recebendo erros 401, o token pode ter expirado.
-# Para gerar um novo token:
+# O sistema renova automaticamente, mas para gerar manualmente:
 # 1. Acesse: https://account.smartthings.com/tokens
 # 2. Crie um novo Personal Access Token
 # 3. Marque as permissões: devices (read, write, execute)
@@ -44,8 +52,12 @@ TV_CONFIG = [
 # Lista de IDs para compatibilidade
 TV_IDS = [tv["id"] for tv in TV_CONFIG]
 
-# URL do webhook para ligar máquinas virtuais
-WEBHOOK_URL = "http://172.16.30.10:5679/webhook/ligatvsmurilo"
+# URL do webhook para ligar máquinas virtuais (do .env)
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")
+
+# URL do endpoint de gerenciamento de BIs (do .env)
+BI_WEBHOOK_URL = os.getenv("BI_WEBHOOK_URL", "http://172.16.30.10:5679/webhook/f70578b6-fad3-421e-b19b-552cb6c8e981")
+BI_WEBHOOK_AUTH = os.getenv("BI_WEBHOOK_AUTH", "UmlrZWxtZVNhbnRvczoxMjM0NTY=")
 
 # Configurações do servidor
 HOST = '0.0.0.0'
@@ -54,7 +66,7 @@ DEBUG = True
 
 # Configurações de renovação automática de token
 TOKEN_AUTO_RENOVACAO = True  # True para ativar, False para desativar
-TOKEN_HORARIO_RENOVACAO = "06:47"  # Horário diário para renovar (formato HH:MM)
+TOKEN_HORARIO_RENOVACAO = "08:26"  # Horário diário para renovar (formato HH:MM)
 
 # Configuração de ligamento automático de TVs
 AUTO_LIGAR_ATIVO = True  # True para ativar, False para desativar
@@ -63,14 +75,14 @@ AUTO_LIGAR_HORARIO = "06:20"  # Horário diário para ligar todas as TVs (format
 # Configuração de Keep Alive (Reconexão automática)
 KEEP_ALIVE_ATIVO = True
 KEEP_ALIVE_INTERVALO = 5  # Minutos
-KEEP_ALIVE_IGNORE_SETORES = ["Reunião", "Reuniao"]
+KEEP_ALIVE_IGNORE_SETORES = ["Reunião", "Reuniao", "Recepção", "Recepcao", "Cozinha", "Jurídico", "Juridico"]
 
-# Credenciais Google para renovação de token
-GOOGLE_EMAIL = "ti.adx01@gmail.com"  # Email da conta Google
-GOOGLE_SENHA = "Audax@159*"  # Senha da conta Google (preencha aqui)
+# Credenciais Google para renovação de token (do .env)
+GOOGLE_EMAIL = os.getenv("GOOGLE_EMAIL")
+GOOGLE_SENHA = os.getenv("GOOGLE_SENHA")
 
-# Configurações Evolution API / WhatsApp
-EVOLUTION_API_URL = "http://localhost:8080"  # URL da Evolution API
-EVOLUTION_API_KEY = "pwd159753"  # API Key configurada no Evolution
-EVOLUTION_INSTANCE = "Murillo"  # Nome da instância
-WHATSAPP_AUTORIZADO = "556292626506"  # Único número autorizado a enviar comandos (sem o 9 extra)
+# Configurações Evolution API / WhatsApp (do .env)
+EVOLUTION_API_URL = os.getenv("EVOLUTION_API_URL")
+EVOLUTION_API_KEY = os.getenv("EVOLUTION_API_KEY")
+EVOLUTION_INSTANCE = os.getenv("EVOLUTION_INSTANCE")
+WHATSAPP_AUTORIZADO = os.getenv("WHATSAPP_AUTORIZADO")
